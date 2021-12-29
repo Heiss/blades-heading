@@ -55,8 +55,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     std::io::stdin().read_to_end(&mut source)?;
     let mut pages: Vec<Page> = serde_json::from_slice(&source)?;
 
+    //https://regex101.com/r/hYltA7/1
     let re =
-        Regex::new(r"(?m)#+ +(?P<name>\w[\w| ]+\w) *(\{ *(?P<attr>[#|.][\w|\s|\.|#]+\w) *\})?").unwrap();
+        Regex::new(r"(?m)#+ +(?P<name>\w[\w| ]+\w) *(\{ *(?P<attr>[#|.][\w|\s|\.|#]+\w) *\})?")
+            .unwrap();
 
     pages.par_iter_mut().for_each(|mut page| {
         let content = page.content.to_string();
