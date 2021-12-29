@@ -1,49 +1,19 @@
-A transform plugin for [Blades](https://getblades.org) that renders code blocks using [Kroki](https://kroki.io/) as default service.
-Code blocks delimited by `` ``` `` and the algorithm can be specified in the first line.
-
-You can use any other code blocks as before, too. This plugin replaces only code blocks, which kroki responses with a successful conversion of a diagram. Otherwise it will print out the code block untouched, so another plugin can handle it.
-
-## Beware:
-
-This implementation currently not support parallel requests to kroki server, so a heavy load of diagrams can lags performance. But we are using a cache, so all requests done only once as long as you do not change the diagramtype or diagram content.
+A transform plugin for [Blades](https://getblades.org) that adds optional attributes to headings. In fact, it implements this [PR](https://github.com/raphlinus/pulldown-cmark/pull/522). Also it adds the class `header` always to heading, so you can style it easier with css or access it with javascript.
 
 ## Tutorial
 
 General use:
 
-````
-```[Diagramtype]
-<your diagram code>
-```
+````markdown
+# Heading 1
 ````
 
 Example:
-````
-```Graphviz
-digraph D {
-  subgraph cluster_p {
-    label = "Kroki";
-    subgraph cluster_c1 {
-      label = "Server";
-      Filebeat;
-      subgraph cluster_gc_1 {
-        label = "Docker/Server";
-        Java;
-      }
-      subgraph cluster_gc_2 {
-        label = "Docker/Mermaid";
-        "Node.js";
-        "Puppeteer";
-        "Chrome";
-      }
-    }
-    subgraph cluster_c2 {
-      label = "CLI";
-      Golang;
-    }
-  }
-}
-```
+````markdown
+# Heading 1
+# Heading 1 {#id}
+# Heading 1 {#id .style-me}
+# Heading 1 {.style-me}
 ````
 
 This plugin can be installed as
@@ -54,5 +24,5 @@ cargo install --path .
 Then, it can be used in Blades as
 ```toml
 [plugins]
-transform = ["blades-kroki"]
+transform = ["blades-heading"]
 ```
